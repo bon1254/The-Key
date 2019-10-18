@@ -1,0 +1,31 @@
+fileFormatVersion: 2
+guid: ed9cd4ad058a2754d9a97ad15dac2fbd
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Sharpe PERSONAL
+  fontNames:
+  - Sharpe PERSONAL
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 6a33e9509a2a0d14ca18a82266d5167f, type: 3}
+  - {fileID: 12800000, guid: 3bfc85e1143b2a44587ea928ccfe5c0e, type: 3}
+  - {fileID: 12800000, guid: de0fcc83a81c4d848a5700cacac81cb2, type: 3}
+  - {fileID: 12800000, guid: 0695b61416adecd49bc3be0b5f5257b7, type: 3}
+  - {fileID: 12800000, guid: 5dfc4aa69996e544b867e7df811c7571, type: 3}
+  - {fileID: 12800000, guid: 75514bea194c6c941a94e78d1e2a1ec1, type: 3}
+  - {fileID: 12800000, guid: 448fdc6badba8ad48abec30c6b02ebfe, type: 3}
+  - {fileID: 12800000, guid: d65627ccbc12db64c8b05c0a6d349ca5, type: 3}
+  - {fileID: 12800000, guid: 357fc82d0f8277241abef408fcd4b7f7, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
