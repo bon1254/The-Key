@@ -9,6 +9,6 @@ public class Vector3Test : MonoBehaviour
 
     void Start()
     {
-        myVector2 = Vector2.one + someVector3.toVector2();    
+        myVector2 = Vector2.one + someVector3.ToVector2();    
     }
 }

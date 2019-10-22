@@ -32,11 +32,10 @@ public class PlayerMovement : MonoBehaviour
     bool DirIsRight;
 
     public bool CanRotated = false;
-
+    public bool IsHitting = true;
     public bool onLadder = false;
     public bool jump = false;
     public bool Unjumging;
-    public bool crouch = false;
     public bool Death = false;
     public bool Push = false;
     public bool Run = false;
@@ -54,16 +53,9 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("IsJumping", false);
     }
 
-    public void OnCrouching(bool isCrouching)
-    {
-        animator.SetBool("IsCrouching", isCrouching);
-    }
-
     public void DoJump(bool jumpStatus)
-    {
-        crouch = !jumpStatus;
+    {        
         animator.SetBool("IsJumping", jumpStatus);
-        Debug.Log(jumpStatus);
     }
 
     public void OnClimbing()
@@ -81,77 +73,71 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("IsPushing", true);
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (PlayerControlable)
+        if (Input.GetButtonDown("Jump") && !Unjumging)
         {
-            //Debug.Log(Unjumging);
-            if (Input.GetButtonDown("Jump") && !Unjumging)
+            if (!onLadder)
             {
-                if (!onLadder)
-                {
-                    jump = true;                   
-                }
+                jump = true;
             }
+        }
 
-            if (Input.GetButton("Crouch"))
+        if (StandUpBoxCollider.enabled)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                if (onLadder)
-                {
-                    crouch = false;
-                }
-                else
-                {
-                    crouch = true;
-                }
+                Run = true;
             }
-            else
-            {
-                crouch = false;
-            }
-            
-            if (StandUpBoxCollider.enabled)
-            {
-                if (Input.GetKeyDown(KeyCode.LeftShift))
-                {
-                    Run = true;
-                }
-                else if (Input.GetKeyUp(KeyCode.LeftShift))
-                {
-                    Run = false;
-                }
-
-                if (Input.GetKeyDown(KeyCode.RightShift))
-                {
-                    Run = true;
-                }
-                else if (Input.GetKeyUp(KeyCode.RightShift))
-                {
-                    Run = false;
-                }
-            }
-            else
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
             {
                 Run = false;
             }
-            if (Run)
-            {
-                NowPushDirection = Input.GetAxisRaw("Horizontal") * runSpeed;
-            }
-            else
-            {
-                NowPushDirection = Input.GetAxisRaw("Horizontal") * WalkSpeed;
-            }
 
-            if(BlockInTrigger == true)
+            if (Input.GetKeyDown(KeyCode.RightShift))
             {
-               if (Input.GetKeyDown(KeyCode.E))
-               {
-                  Debug.Log("12314");                
-                  block.ChangeCurrentAngle();//旋轉圖片               
-               }
+                Run = true;
             }
+            else if (Input.GetKeyUp(KeyCode.RightShift))
+            {
+                Run = false;
+            }
+        }
+        else
+        {
+            Run = false;
+        }
 
+        if (Run)
+        {
+            NowPushDirection = Input.GetAxisRaw("Horizontal") * runSpeed;
+        }
+        else
+        {
+            NowPushDirection = Input.GetAxisRaw("Horizontal") * WalkSpeed;
+        }
+
+        if (BlockInTrigger == true)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                block.ChangeCurrentAngle();//旋轉圖片               
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            IsPushing = !IsPushing;
+        }
+
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        VerticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
+    }
+
+    void FixedUpdate()
+    {
+        if (PlayerControlable)
+        {            
             //Push box direction 
             if (IsPushing)
             {
@@ -192,11 +178,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
             }
-            horizontalMove = NowPushDirection;
-
-
-            VerticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
-            animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+            horizontalMove = NowPushDirection;           
 
             //Pull and push box
             Physics2D.queriesStartInColliders = false;
@@ -204,17 +186,12 @@ public class PlayerMovement : MonoBehaviour
 
           
             if (hit.collider != null && hit.collider.gameObject.tag == "Pushable")
-            {
-                animator.SetBool("IsCrouching", false);
-                Debug.Log("hit");
-                if (Input.GetKeyDown(KeyCode.E))
+            {                               
+                if (IsPushing)
                 {
-                    IsPushing = !IsPushing;
-                    Debug.Log("E");
-                    if (IsPushing)
+                    if(IsHitting)
                     {
                         animator.SetBool("IsPushing", true);
-                        //animator.SetBool("IsCrouching", false);
                         Crate = hit.collider.gameObject;
                         if(Crate.transform.position.x > transform.position.x)
                         {
@@ -225,36 +202,30 @@ public class PlayerMovement : MonoBehaviour
                             DirIsRight = false;
                         }
                         CrateRb2d = Crate.GetComponent<Rigidbody2D>();
-
                         Crate.GetComponent<FixedJoint2D>().connectedBody = GetComponent<Rigidbody2D>();
                         Crate.GetComponent<FixedJoint2D>().enabled = true;
                         Unjumging = true;
                         CrateRb2d.isKinematic = false;
-
-                        Debug.Log("Push");
+                        IsHitting = false;
                     }
-                    else
-                    {
-                        animator.SetBool("IsPushing", false);
-                        //animator.SetBool("IsCrouching", true);
-
-                        Crate.GetComponent<FixedJoint2D>().connectedBody = null;
-                        Crate.GetComponent<FixedJoint2D>().enabled = false;
-                        Unjumging = false;
-                        CrateRb2d.isKinematic = true;
-                        CrateRb2d.velocity = Vector2.zero;
-                        Debug.Log("NoPush");
-                    }
-                    Debug.Log("hit");
                 }
+                else
+                {
+                    animator.SetBool("IsPushing", false);
+                    Crate.GetComponent<FixedJoint2D>().connectedBody = null;
+                    Crate.GetComponent<FixedJoint2D>().enabled = false;
+                    Unjumging = false;
+                    CrateRb2d.isKinematic = true;
+                    CrateRb2d.velocity = Vector2.zero;
+                }                
             }          
             // Move our character
-            controller.Move(horizontalMove * Time.fixedDeltaTime, VerticalMove * Time.fixedDeltaTime, crouch, jump, onLadder);
+            controller.Move(horizontalMove * Time.fixedDeltaTime, VerticalMove * Time.fixedDeltaTime, jump, onLadder);
             jump = false;
         }
         else
         {
-            controller.Move(0 ,0, false, false, false);
+            controller.Move(0 ,0, false, false);
             if (animator.GetBool("Death"))
             {
                 animator.SetBool("Death", false);

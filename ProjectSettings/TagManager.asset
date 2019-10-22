@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Through
   - FallDetector
   - CheckPoint
   - Ladder
@@ -19,6 +18,7 @@ TagManager:
   - DialogueFieldMushRoom
   - DialogueFieldVillage
   - DialogueFieldEnemyMonkey
+  - Ground
   layers:
   - Default
   - TransparentFX

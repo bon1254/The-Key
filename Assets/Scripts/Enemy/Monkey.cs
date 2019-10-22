@@ -6,35 +6,42 @@ public class Monkey : MonoBehaviour
 {
     public Vector2 respawnPoint;
     public Transform target;
-    Transform enemyTransform;
+    Transform enemyTransform;    
+    Rigidbody2D Monekyrb2d;
+    BoxCollider2D boxCollider2D;
 
+    float myWidth;
     public float speed = 15f;
+    public LayerMask groundLayer;
+    public bool IsGrounded;
+    public bool IsBlocked;
+
     public Animator animator;
     bool facingRight = true;
-
-    Rigidbody2D Monekyrb2d;
     public float JumpForce = 700f;
-    public bool IsJumping = false;
 
     void Awake()
     {
         respawnPoint = gameObject.transform.localPosition;
-        Debug.Log(respawnPoint);
-        enemyTransform = this.GetComponent<Transform>();
+        enemyTransform = gameObject.GetComponent<Transform>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         Monekyrb2d = gameObject.GetComponent<Rigidbody2D>();
+        boxCollider2D = gameObject.GetComponent<BoxCollider2D>();
     }
 
-
-    void FixedUpdate()
+    void Start()
     {
+        myWidth = this.GetComponent<SpriteRenderer>().bounds.extents.x;
+    }
 
+    void Update()
+    {
         //计算玩家与敌人的距离
         float distance = Vector2.Distance(transform.position, target.position);
 
         //玩家与敌人的方向向量
         Vector2 temVec = target.position - transform.position;
-        
+     
         if (Mathf.Abs(distance) <= 25)
         {
             //rotate to look at the player 
@@ -51,6 +58,21 @@ public class Monkey : MonoBehaviour
         {
             animator.SetBool("IsRunning", false);
         }
+
+      
+        Debug.Log(IsGrounded);       
+    }
+
+    void FixedUpdate()
+    {
+        Vector2 LineCastPos = enemyTransform.position - (- enemyTransform.right * myWidth * 0.25f);
+        Debug.DrawLine(LineCastPos, LineCastPos + Vector2.down * 3.2f);
+        IsGrounded = Physics2D.Linecast(LineCastPos, LineCastPos + Vector2.down, groundLayer);
+        //IsBlocked = Physics2D.Linecast(LineCastPos, LineCastPos - enemyTransform. , groundLayer);
+        if (!IsGrounded)
+        {
+            //Monekyrb2d.AddForce(new Vector2(0, JumpForce));
+        }
     }
 
     void Flip()
@@ -65,33 +87,5 @@ public class Monkey : MonoBehaviour
         {
             gameObject.transform.localPosition = respawnPoint;
         }       
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "JumpingField")
-        {
-            if (IsJumping == false)
-            {
-                IsJumping = true;
-                Monekyrb2d.AddForce(new Vector2(0f, JumpForce));
-                animator.SetBool("IsJumping", true);
-                Debug.Log(IsJumping + "Enter");
-            }
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "JumpingField")
-        {
-            if (IsJumping == true)
-            {
-                IsJumping = false;
-                animator.SetBool("IsJumping", false);
-                animator.SetBool("IsRunning", true);
-                Debug.Log(IsJumping + "Exit");
-            }
-        }
     }
 }

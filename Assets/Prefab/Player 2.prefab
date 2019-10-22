@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 0.84, y: 0.84, z: 0.84}
   m_Children: []
   m_Father: {fileID: 9176719419275525545}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &4300155529419678175
 CircleCollider2D:
@@ -72,7 +72,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199295957239327797}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.731047, y: -18.168394, z: 47.50403}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.152077, y: 5.152077, z: 5.152077}
   m_Children:
   - {fileID: 7662523664005674004}
@@ -227,7 +227,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9176719419275525545}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4729572685933397857
 GameObject:
@@ -258,7 +258,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9176719419275525545}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4729572685933397871
 MonoBehaviour:
@@ -334,7 +334,6 @@ Transform:
   m_LocalScale: {x: 0.62725765, y: 0.62725765, z: 0.62725765}
   m_Children:
   - {fileID: 7214442934013243344}
-  - {fileID: 6890851116857339071}
   - {fileID: 4939154248322357477}
   - {fileID: 7212795180943420631}
   - {fileID: 4729572685933397856}
@@ -403,15 +402,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_JumpForce: 700
-  m_CrouchSpeed: 0.4
   m_MovementSmoothing: 0.05
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 1057335
   m_GroundCheck: {fileID: 4939154248322357477}
-  m_CeilingCheck: {fileID: 6890851116857339071}
-  m_CrouchDisableCollider: {fileID: 6992598834175729887}
   m_Grounded: 1
   OnLandEvent:
     m_PersistentCalls:
@@ -419,20 +415,6 @@ MonoBehaviour:
       - m_Target: {fileID: 3183787733113533692}
         m_MethodName: OnLanding
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnCrouchEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3183787733113533692}
-        m_MethodName: OnCrouching
-        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -531,7 +513,6 @@ MonoBehaviour:
   onLadder: 0
   jump: 0
   Unjumging: 0
-  crouch: 0
   Death: 0
   Push: 0
   Run: 0
@@ -550,11 +531,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textDisplay: {fileID: 0}
+  textImage: {fileID: 0}
   sentences: []
   typingspeed: 0
+  FadeTime: 0
   continueButton: {fileID: 0}
-  DialougeManager: {fileID: 0}
   Player: {fileID: 0}
+  DialougeManager: {fileID: 0}
+  DialougeMushroom: {fileID: 0}
+  DialougeVillage: {fileID: 0}
+  DialougeEnemyMonkey: {fileID: 0}
+  EnemyMonkey: {fileID: 0}
+  PlayerRb2d: {fileID: 0}
+  InMushroom: 0
+  InVillage: 0
+  InEnemyMonkey: 0
+  JPF1: {fileID: 0}
 --- !u!95 &633870449293890831
 Animator:
   serializedVersion: 3
@@ -601,7 +593,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7669382094933393267}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.731047, y: 18.168394, z: -63.44644}
+  m_LocalPosition: {x: 0, y: 0, z: -15.942412}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3032096801849597740}
@@ -692,33 +684,3 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &8701085499205898194
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6890851116857339071}
-  m_Layer: 8
-  m_Name: CeilingCheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6890851116857339071
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8701085499205898194}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05, y: 0.98, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 9176719419275525545}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
