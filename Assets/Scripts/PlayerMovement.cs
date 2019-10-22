@@ -50,27 +50,27 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnLanding()
     {
-        animator.SetBool("IsJumping", false);
+        //animator.SetBool("IsJumping", false);
     }
 
     public void DoJump(bool jumpStatus)
     {        
-        animator.SetBool("IsJumping", jumpStatus);
+        //animator.SetBool("IsJumping", jumpStatus);
     }
 
     public void OnClimbing()
     {
-        animator.SetBool("IsClimbing", true);
+        //animator.SetBool("IsClimbing", true);
     }
 
     public void Die()
     {
-        animator.SetBool("Death", true);
+        //animator.SetBool("Death", true);
     }
 
     public void OnPushing()
     {
-        animator.SetBool("IsPushing", true);
+        //animator.SetBool("IsPushing", true);
     }
 
     void Update()
@@ -108,15 +108,21 @@ public class PlayerMovement : MonoBehaviour
             Run = false;
         }
 
-        if (Run)
+        if (Input.GetButton("Horizontal"))
         {
-            NowPushDirection = Input.GetAxisRaw("Horizontal") * runSpeed;
+            if (Run)
+            {
+                NowPushDirection = Input.GetAxisRaw("Horizontal") * runSpeed;
+            }
+            else
+            {
+                NowPushDirection = Input.GetAxisRaw("Horizontal") * WalkSpeed;
+            }
         }
         else
         {
-            NowPushDirection = Input.GetAxisRaw("Horizontal") * WalkSpeed;
+            NowPushDirection = 0.0f;
         }
-
         if (BlockInTrigger == true)
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -130,8 +136,29 @@ public class PlayerMovement : MonoBehaviour
             IsPushing = !IsPushing;
         }
 
-        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        //animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
         VerticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
+        animator.SetFloat("Speed", Mathf.Abs(controller.m_Rigidbody2D.velocity.x));
+
+        animator.SetBool("Jump", Mathf.Abs(controller.m_Rigidbody2D.velocity.y) > 0.1f);
+        bool isJumpping = animator.GetBool("IsJumping");
+        if (isJumpping && animator.GetBool("Jump")) 
+        {
+            var normalizeTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            if (normalizeTime >= 6f / 10f)
+            {
+                if (controller.m_Rigidbody2D.velocity.y > 0)
+                    animator.Play("Player_Jump", 0, 6f / 10f);
+                else if(controller.m_Rigidbody2D.velocity.y<0)
+                {
+                    animator.Play("Player_Jump", 0, 7f / 10f);
+                }
+                else
+                {
+                    animator.Play("Player_Jump",0, 1.0f);
+                }
+            }            
+        }
     }
 
     void FixedUpdate()
@@ -155,7 +182,7 @@ public class PlayerMovement : MonoBehaviour
                             CrateRb2d.isKinematic = true;
                             CrateRb2d.velocity = Vector2.zero;
                             Debug.Log("NoPush");
-                            animator.SetBool("IsPushing", false);
+                            //animator.SetBool("IsPushing", false);
                         }
                     }
                 }
@@ -173,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
                             CrateRb2d.isKinematic = true;
                             CrateRb2d.velocity = Vector2.zero;
                             Debug.Log("NoPush");
-                            animator.SetBool("IsPushing", false);
+                            //animator.SetBool("IsPushing", false);
                         }
                     }
                 }
@@ -191,7 +218,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if(IsHitting)
                     {
-                        animator.SetBool("IsPushing", true);
+                        //animator.SetBool("IsPushing", true);
                         Crate = hit.collider.gameObject;
                         if(Crate.transform.position.x > transform.position.x)
                         {
@@ -211,7 +238,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    animator.SetBool("IsPushing", false);
+                    //animator.SetBool("IsPushing", false);
                     Crate.GetComponent<FixedJoint2D>().connectedBody = null;
                     Crate.GetComponent<FixedJoint2D>().enabled = false;
                     Unjumging = false;
@@ -226,9 +253,9 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             controller.Move(0 ,0, false, false);
-            if (animator.GetBool("Death"))
+            if (animator.GetLayerWeight(1)>=1.0f)//Death Layer
             {
-                animator.SetBool("Death", false);
+                animator.SetLayerWeight(1, 0.0f);//Death Layer
             }
             if (Time.time - DeathTime >= .75f)
             {
@@ -262,14 +289,14 @@ public class PlayerMovement : MonoBehaviour
         {
             DeathTime = Time.time;
             PlayerControlable = false;
-            animator.SetBool("Death", true);
+            animator.SetLayerWeight(1, 1.0f);//Death Layer
         }
 
         if (other.tag == "Ladder")
         {
             onLadder = true;
-            animator.SetBool("IsClimbing", onLadder);
-            animator.SetBool("IsJumping", false);
+            //animator.SetBool("IsClimbing", onLadder);
+            //animator.SetBool("IsJumping", false);
         }
 
         if (other.tag == "FinishPushing")
@@ -278,7 +305,7 @@ public class PlayerMovement : MonoBehaviour
             {
             Crate.GetComponent<FixedJoint2D>().enabled = false;
             CrateRb2d.isKinematic = false;
-            animator.SetBool("IsPushing", false);
+            //animator.SetBool("IsPushing", false);
             Debug.Log("Cut");
             }
         }
@@ -302,7 +329,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.tag == "Ladder") {
             onLadder = false;
-            animator.SetBool("IsClimbing", onLadder);    
+            //animator.SetBool("IsClimbing", onLadder);    
         }
 
         if (other.tag == "blocks")
@@ -319,9 +346,11 @@ public class PlayerMovement : MonoBehaviour
         if (other.tag == "Ladder") {
             onLadder = true;
             if (Input.GetButton("Jump")) {
+                /*
                 animator.SetBool("IsClimbing", onLadder);
                 animator.SetBool("IsJumping", false);
                 animator.SetBool("IsCrouching", false);
+                */
             }
         }
 
