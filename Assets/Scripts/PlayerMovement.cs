@@ -3,102 +3,172 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
-{
-    public bool PlayerControlable = true;
-
+{   
+    [Header("GetComponent")]
+    public BoxCollider2D StandUpBoxCollider;
     public CharacterController2D controller;
     public Animator animator;
-    public Vector3 respawnPoint;
-    public LevelManager gameLevelManager;
-    public BoxCollider2D StandUpBoxCollider;
+    Rigidbody2D PlayerRb2d;
 
+    [Header("UI")]
+    public Animator animatorUI;
+    public GameObject DeathUI;
 
+    [Header("Speed")]
     public float runSpeed;
     public float WalkSpeed;
     public float climbSpeed = 10f;
 
-    float horizontalMove;
-    float VerticalMove;
+    float horizontalMove = 0f, VerticalMove = 0f;
 
-    public float distance = 0.75f;
+    [Header("Push Raycast")]
+    public float distance = 0.8f;
     public LayerMask boxMask;
 
-    GameObject Crate = null;
-    Rigidbody2D CrateRb2d;
-    bool IsPushing = false;
-    float NowPushDirection;
-    bool DirIsRight;
+    public Vector3 respawnPoint;
 
-    public bool CanRotated = false;
-    public bool IsHitting = true;
-    public bool onLadder = false;
-    public bool jump = false;
-    public bool Unjumging;
-    public bool Death = false;
-    public bool Push = false;
+    bool jump = false;
+    bool climb = false;
+
+    public GameObject Player;   
+    public LevelManager gameLevelManager;
+
+    [Header("State")]
     public bool Run = false;
+    public bool onLadder = false;
+    public bool Unjumping;
+    public bool Death = false;
+    public bool PlayerControlable = true;
 
+    //Push
+    GameObject Crate = null;
+    public bool IsPushing = false;
+    public bool DirIsRight;
+    public bool DropTheBox = false;
+    float NowPushDirection;
+    float PlayerPushDirection = 0;
+    
     float DeathTime = 0;
+    
+    void Awake()
+    {
+        PlayerRb2d = GetComponent<Rigidbody2D>();
+        Physics2D.queriesStartInColliders = false;
+    }
 
     void Start()
     {
-        respawnPoint = transform.position;     
+        respawnPoint = transform.position;
         gameLevelManager = FindObjectOfType<LevelManager>();
+    }
+
+    void Update()
+    {   
+        if (!PlayerControlable) return;
+       
+        ControlRun();
+
+        //旋轉格子(互動)
+        if (BlockInTrigger == true)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                block.ChangeCurrentAngle();
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                GetCrate();               
+            }
+        }
+
+        PushBox();
+
+        animator.SetFloat("Speed", Mathf.Abs(PlayerRb2d.velocity.x));
+
+        if (onLadder)
+        {           
+            ControlClimb();
+        }
+        else
+        {
+            ControlJump();
+        }       
+    }
+
+    void FixedUpdate()
+    {
+        if (!PlayerControlable)
+            return;
+      
+        JumpingAniamtion();
+
+        controller.Move(horizontalMove * Time.fixedDeltaTime, VerticalMove * Time.fixedDeltaTime, jump, climb);
+        jump = false;
     }
 
     public void OnLanding()
     {
-        //animator.SetBool("IsJumping", false);
+        animator.SetBool("IsJumping", false);
+        animator.SetFloat("New Float", 0.3f);
     }
 
-    public void DoJump(bool jumpStatus)
-    {        
-        //animator.SetBool("IsJumping", jumpStatus);
-    }
-
-    public void OnClimbing()
+    void ControlClimb()
     {
-        //animator.SetBool("IsClimbing", true);
-    }
-
-    public void Die()
-    {
-        //animator.SetBool("Death", true);
-    }
-
-    public void OnPushing()
-    {
-        //animator.SetBool("IsPushing", true);
-    }
-
-    void Update()
-    {
-        if (Input.GetButtonDown("Jump") && !Unjumging)
+        if (!climb && Input.GetButtonDown("Jump"))
         {
-            if (!onLadder)
-            {
-                jump = true;
-            }
+            climb = true;
+            animator.SetBool("IsClimbing", true);
+            animator.SetBool("IsJumping", false);
         }
+        VerticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
+    }
 
+    public void ControlJump()
+    {
+        if (!Unjumping && controller.m_Grounded && Input.GetButtonDown("Jump"))
+        {
+            controller.OnJump();
+            jump = true;
+            animator.SetBool("IsJumping", true);
+        }
+    }
+
+    public void JumpingAniamtion()
+    {
+        if (climb)
+            return;
+
+        bool IsJumping = Mathf.Abs(PlayerRb2d.velocity.y) > 0.4f;
+        
+        if (IsJumping)
+        {           
+            if (PlayerRb2d.velocity.y > 0)
+            {
+                animator.SetFloat("New Float", 5f / 12f);
+            }
+            else if (PlayerRb2d.velocity.y < 0)
+            {
+                animator.SetFloat("New Float", 7f / 12f);
+            }                          
+        }
+    }
+
+    void ControlRun()
+    {
+        //Set run
         if (StandUpBoxCollider.enabled)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
                 Run = true;
             }
-            else if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                Run = false;
-            }
-
-            if (Input.GetKeyDown(KeyCode.RightShift))
-            {
-                Run = true;
-            }
-            else if (Input.GetKeyUp(KeyCode.RightShift))
+            else
             {
                 Run = false;
             }
@@ -109,175 +179,121 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (Input.GetButton("Horizontal"))
-        {
+        {                     
+           //Set direction
+            float PushDirection = Input.GetAxisRaw("Horizontal");          
+            //Set MoveSpeed
             if (Run)
             {
-                NowPushDirection = Input.GetAxisRaw("Horizontal") * runSpeed;
+                horizontalMove = PushDirection * runSpeed;
             }
             else
             {
-                NowPushDirection = Input.GetAxisRaw("Horizontal") * WalkSpeed;
+                horizontalMove = PushDirection * WalkSpeed;
             }
         }
         else
-        {
-            NowPushDirection = 0.0f;
-        }
-        if (BlockInTrigger == true)
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                block.ChangeCurrentAngle();//旋轉圖片               
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            IsPushing = !IsPushing;
-        }
-
-        //animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-        VerticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
-        animator.SetFloat("Speed", Mathf.Abs(controller.m_Rigidbody2D.velocity.x));
-
-        animator.SetBool("Jump", Mathf.Abs(controller.m_Rigidbody2D.velocity.y) > 0.1f);
-        bool isJumpping = animator.GetBool("IsJumping");
-        if (isJumpping && animator.GetBool("Jump")) 
-        {
-            var normalizeTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            if (normalizeTime >= 6f / 10f)
-            {
-                if (controller.m_Rigidbody2D.velocity.y > 0)
-                    animator.Play("Player_Jump", 0, 6f / 10f);
-                else if(controller.m_Rigidbody2D.velocity.y<0)
-                {
-                    animator.Play("Player_Jump", 0, 7f / 10f);
-                }
-                else
-                {
-                    animator.Play("Player_Jump",0, 1.0f);
-                }
-            }            
-        }
+            horizontalMove = 0;
     }
 
-    void FixedUpdate()
+    #region 推箱子
+    void GetCrate()
     {
-        if (PlayerControlable)
-        {            
-            //Push box direction 
-            if (IsPushing)
-            {
-                if(DirIsRight)
-                {
-                    if(NowPushDirection < 0)
-                    {
-                        if (NowPushDirection < horizontalMove)
-                        {
-                            IsPushing = false;
-
-                            Crate.GetComponent<FixedJoint2D>().connectedBody = null;
-                            Crate.GetComponent<FixedJoint2D>().enabled = false;
-                            Unjumging = false;
-                            CrateRb2d.isKinematic = true;
-                            CrateRb2d.velocity = Vector2.zero;
-                            Debug.Log("NoPush");
-                            //animator.SetBool("IsPushing", false);
-                        }
-                    }
-                }
-                else
-                {
-                    if (NowPushDirection > 0)
-                    {
-                        if (NowPushDirection > horizontalMove)
-                        {
-                            IsPushing = false;
-
-                            Crate.GetComponent<FixedJoint2D>().connectedBody = null;
-                            Crate.GetComponent<FixedJoint2D>().enabled = false;
-                            Unjumging = false;
-                            CrateRb2d.isKinematic = true;
-                            CrateRb2d.velocity = Vector2.zero;
-                            Debug.Log("NoPush");
-                            //animator.SetBool("IsPushing", false);
-                        }
-                    }
-                }
-            }
-            horizontalMove = NowPushDirection;           
-
-            //Pull and push box
-            Physics2D.queriesStartInColliders = false;
-            RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x , transform.position.y), Vector2.right * transform.localScale.x, distance, boxMask);
-
-          
-            if (hit.collider != null && hit.collider.gameObject.tag == "Pushable")
-            {                               
-                if (IsPushing)
-                {
-                    if(IsHitting)
-                    {
-                        //animator.SetBool("IsPushing", true);
-                        Crate = hit.collider.gameObject;
-                        if(Crate.transform.position.x > transform.position.x)
-                        {
-                            DirIsRight = true;
-                        }
-                        else
-                        {
-                            DirIsRight = false;
-                        }
-                        CrateRb2d = Crate.GetComponent<Rigidbody2D>();
-                        Crate.GetComponent<FixedJoint2D>().connectedBody = GetComponent<Rigidbody2D>();
-                        Crate.GetComponent<FixedJoint2D>().enabled = true;
-                        Unjumging = true;
-                        CrateRb2d.isKinematic = false;
-                        IsHitting = false;
-                    }
-                }
-                else
-                {
-                    //animator.SetBool("IsPushing", false);
-                    Crate.GetComponent<FixedJoint2D>().connectedBody = null;
-                    Crate.GetComponent<FixedJoint2D>().enabled = false;
-                    Unjumging = false;
-                    CrateRb2d.isKinematic = true;
-                    CrateRb2d.velocity = Vector2.zero;
-                }                
-            }          
-            // Move our character
-            controller.Move(horizontalMove * Time.fixedDeltaTime, VerticalMove * Time.fixedDeltaTime, jump, onLadder);
-            jump = false;
-        }
-        else
+        if (IsPushing)
         {
-            controller.Move(0 ,0, false, false);
-            if (animator.GetLayerWeight(1)>=1.0f)//Death Layer
+            EndPush();
+            return;
+        }
+
+        if (Player.transform.localScale.x > 0.01f)
+            PlayerPushDirection = 1f;
+        if (Player.transform.localScale.x < -0.01f)
+            PlayerPushDirection = -1f;
+
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.right * transform.localScale.x, distance, boxMask);
+        if (hit.collider != null && hit.collider.tag == "Pushable")
+        {
+            Crate = hit.collider.gameObject;
+            if (Crate.GetComponent<IsBoxOnEdge>() == null) Crate.AddComponent<IsBoxOnEdge>();
+
+            IsPushing = true;
+            Unjumping = true;
+            animator.SetBool("IsPushing", true);
+            if (Crate.transform.position.x > transform.position.x)
             {
-                animator.SetLayerWeight(1, 0.0f);//Death Layer
+                DirIsRight = true;
             }
-            if (Time.time - DeathTime >= .75f)
+            else
             {
-                PlayerControlable = true;
-                gameObject.SetActive(false);
-                gameLevelManager.Respawn();
+                DirIsRight = false;
             }
+            Crate.GetComponent<FixedJoint2D>().connectedBody = PlayerRb2d;
+            Crate.GetComponent<FixedJoint2D>().enabled = true;
+            Crate.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            Crate.GetComponent<IsBoxOnEdge>().UseBox();
         }
     }
+
+    public void PushBox()
+    {
+        if (IsPushing)
+        {
+            if (Player.transform.localScale.x * PlayerPushDirection < 0)
+                EndPush();
+        }
+    }
+
+    void EndPush()
+    {
+        IsPushing = false;
+        Unjumping = false;
+        Crate.GetComponent<IsBoxOnEdge>().PutDown();
+        animator.SetBool("IsPushing", false);
+        if (Crate != null)
+        {
+            Crate.GetComponent<FixedJoint2D>().enabled = false;
+            Crate.GetComponent<FixedJoint2D>().connectedBody = null;
+            if (!Crate.GetComponent<IsBoxOnEdge>().Falling)
+            {
+                var CrateRb2d = Crate.GetComponent<Rigidbody2D>();
+                CrateRb2d.isKinematic = true;
+                CrateRb2d.velocity = Vector2.zero;
+            }
+        }
+        print("end");
+    }
+    #endregion
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x , transform.position.y) + Vector2.right * transform.localScale.x * distance);
+        Gizmos.DrawLine(transform.position, new Vector2(transform.position.x, transform.position.y) + Vector2.right * transform.localScale.x * distance);
+    }
+
+    #region 碰撞器
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "Enemy")
+        {
+            if (!Death)
+            {
+                Death = false;
+                PlayerControlable = false;
+                animator.SetTrigger("New Trigger");
+                DeathUI.SetActive(true);
+                animatorUI.Play("DeathStart");
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "FallDetector")
         {
-            Debug.Log("Fall");
-            gameLevelManager.Respawn();
+            PlayerControlable = false;
+            animator.SetTrigger("New Trigger");
+            DeathUI.SetActive(true);
+            animatorUI.Play("DeathStart");
         }
 
         if (other.tag == "CheckPoint")
@@ -295,73 +311,50 @@ public class PlayerMovement : MonoBehaviour
         if (other.tag == "Ladder")
         {
             onLadder = true;
-            //animator.SetBool("IsClimbing", onLadder);
-            //animator.SetBool("IsJumping", false);
         }
-
-        if (other.tag == "FinishPushing")
+        if (other.tag == "NextLevel")
         {
-            if(IsPushing == true)
-            {
-            Crate.GetComponent<FixedJoint2D>().enabled = false;
-            CrateRb2d.isKinematic = false;
-            //animator.SetBool("IsPushing", false);
-            Debug.Log("Cut");
-            }
+            enabled = false;
+            animator.SetFloat("Speed", 0);
+            PlayerRb2d.velocity = Vector2.zero;
         }
 
         if (other.tag == "CheckPoint")
         {
             respawnPoint = other.transform.position;
-        }       
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "Enemy")
-        {
-            gameObject.SetActive(false);
-            gameLevelManager.Respawn();
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Ladder") {
-            onLadder = false;
-            //animator.SetBool("IsClimbing", onLadder);    
-        }
-
-        if (other.tag == "blocks")
+        if (other.tag == "Ladder")
         {
-            BlockInTrigger = false;
-        }      
-    }
-
-    public BlockRotationRandom block;
-    public bool BlockInTrigger = false;
-
-    void OnTriggerStay2D(Collider2D other) //Player腳本的
-    {
-        if (other.tag == "Ladder") {
-            onLadder = true;
-            if (Input.GetButton("Jump")) {
-                /*
-                animator.SetBool("IsClimbing", onLadder);
-                animator.SetBool("IsJumping", false);
-                animator.SetBool("IsCrouching", false);
-                */
+            onLadder = false;
+            if (climb)
+            {
+                climb = false;
+                animator.SetBool("IsClimbing", false);
+                PlayerRb2d.gravityScale = 5.2f;
             }
         }
 
         if (other.tag == "blocks")
         {
-            block = other.GetComponent<BlockRotationRandom>();
-            BlockInTrigger = true;
-            Debug.Log("123");           
+            BlockInTrigger = false;
         }
-        
     }
 
+    public BlockRotationRandom block;
+    public bool BlockInTrigger = false;
 
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.tag == "blocks")
+        {
+            block = other.GetComponent<BlockRotationRandom>();
+            BlockInTrigger = true;
+            Debug.Log("123");
+        }
+    }
+    #endregion
 }
