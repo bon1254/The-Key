@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: ef4639759ff734542b0ed0c7df9bd1ec
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DFHei Std
+  fontNames:
+  - DFHei Std
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: cd8b2a6ce98d9184ab0cf5d1929c9f2a, type: 3}
+  - {fileID: 12800000, guid: d7d1d9cc8ed20dc41968376078195657, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

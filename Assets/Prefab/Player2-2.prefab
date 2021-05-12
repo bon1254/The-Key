@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3597187573387458843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5386758142496151601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 133d2ef5c9c71e94ca5edb4a046fa997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Debug_DialogueManagerOn: 0
+  textDisplay: {fileID: 0}
+  textImage: {fileID: 0}
+  sentences:
+  - "\u9019\u500B\u68EE\u6797\u597D\u5B89\u975C\u2026\u611F\u89BA\u6B7B\u6C23\u6C89\u6C89\u7684\u5462\u3002"
+  - "\u9019\u4E9B\u7FC5\u8180\u7684\u751F\u7269\u600E\u9EBC\u88AB\u540A\u5728\u6A39\u4E0A...\u767C\u751F\u4E86\u4EC0\u9EBC\u4E8B\u60C5...?"
+  typingspeed: 0.05
+  FadeTime: 0.5
+  continueButton: {fileID: 0}
+  Player: {fileID: 5386758142496151601}
+  audioSource: {fileID: 0}
+  audioManager: {fileID: 0}
+  DialogueCanvas: {fileID: 0}
+  DialogueManager: {fileID: 0}
+  PlayerRb2d: {fileID: 3893042139876830206}
+  MeetDeathElf: 0
+--- !u!1001 &8178382367049663227
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 39.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 813289517175710895, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1156856309530343126, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.0712843
+      objectReference: {fileID: 0}
+    - target: {fileID: 1156856309530343126, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.728317
+      objectReference: {fileID: 0}
+    - target: {fileID: 4305134012260506314, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_Name
+      value: Player2-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703390418487926340, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703390418487926340, guid: ffa5c0614200668418d989b90f55adc8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1238525673, guid: ffa5c0614200668418d989b90f55adc8, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: ffa5c0614200668418d989b90f55adc8, type: 3}
+--- !u!1 &5386758142496151601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4305134012260506314, guid: ffa5c0614200668418d989b90f55adc8,
+    type: 3}
+  m_PrefabInstance: {fileID: 8178382367049663227}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &3893042139876830206 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 5150339366076049669, guid: ffa5c0614200668418d989b90f55adc8,
+    type: 3}
+  m_PrefabInstance: {fileID: 8178382367049663227}
+  m_PrefabAsset: {fileID: 0}

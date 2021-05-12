@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: b9ed975f1d59041ff9af22197ac927ea
+labels:
+- Shaders
+- Unity2d
+- 2d
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _MainTex: {fileID: 2800000, guid: 6f212a79e9b3ac8488eed5ca04c258bf, type: 3}
+  - _StencilMask: {instanceID: 0}
+  - _Layer1: {instanceID: 0}
+  - _Layer2: {instanceID: 0}
+  - _Layer3: {instanceID: 0}
+  - _BumpMap: {instanceID: 0}
+  - _ReflectionTex: {instanceID: 0}
+  - _ReflectionMask: {instanceID: 0}
+  - _Illum: {instanceID: 0}
+  - _TransmissionTex: {instanceID: 0}
+  - _DissolveTex: {instanceID: 0}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
