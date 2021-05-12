@@ -18,21 +18,13 @@ public class boxSetting : MonoBehaviour
     void Update()
     {
         
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "Pushable")
-        {
-            SmallerBox.GetComponent<IsBoxOnEdge>().Unlock();
-            SmallerBox.transform.SetParent(gameObject.transform.parent); 
-        }
-    }
+    }    
 
     void OnCollisionEnter2D(Collision2D box)
     {
+        Debug.Log(13215);
         if (box.transform.tag == "Pushable")
         {
-            SmallerBox.GetComponent<IsBoxOnEdge>().OnLock();
             SmallerBox.transform.SetParent(gameObject.transform); //SmallerBox是子物件           
             Debug.Log(123);
         }        

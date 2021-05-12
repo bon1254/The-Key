@@ -5,11 +5,8 @@ using UnityEngine;
 public class ForE : MonoBehaviour
 {
     [SerializeField]
-    GameObject Fire123;
-
-    public AudioSource Burning;
-    public Animator animator;
-    public BoxCollider2D boxCollider2d;
+    GameObject Door;
+    public AudioSource Open;
     public bool isOn;
 
     // Start is called before the first frame update
@@ -28,13 +25,13 @@ public class ForE : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            Debug.Log("istur13312e");
+            if (Input.GetKey(KeyCode.E))
             {
+               Debug.Log("isture");
                isOn = true;
-               Burning.Play();
-               animator.SetBool("UP", true);
-               Fire123.SetActive(true);
-               boxCollider2d.enabled = false;
+               Open.Play();
+               Door.SetActive(true);
             }
         }
         

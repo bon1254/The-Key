@@ -4,27 +4,21 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
-  - DialogueFieldVillage
-  - NextLevel
-  - Enemy
-  - DialogueFieldEnemyMonkey
+  - FallDetector
   - CheckPoint
-  - PrologueDialogueSlate
-  - PrologueDialogueFabric
-  - PrologueDialogueText
-  - PrologueDialogueStatue
-  - PrologueDialoguePottery
-  - MonkeyTwoDialogueTaking
-  - ForE
   - Ladder
-  - MonkeyThreeDialogueFindHole
   - Pushable
+  - Enemy
+  - Spike
+  - NextLevel
+  - ForE
   - FinishPushing
   - blocks
-  - MonkeyFourDialogueBlocks
-  - MonkeyFourDialogueSlateBlock
-  - ElfOneDialogueDeathElfes
+  - JumpingField
+  - DialogueFieldMushRoom
+  - DialogueFieldVillage
+  - DialogueFieldEnemyMonkey
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -35,18 +29,18 @@ TagManager:
   - 
   - 
   - Player
-  - Enemy
+  - Obstacle
   - Ladder
+  - CheckPoint
+  - Items
   - Box
-  - triggerable
+  - Enemy
+  - NextLevel
+  - Triggerble
+  - Camera
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Ground
   - 
   - 
   - 
@@ -59,36 +53,36 @@ TagManager:
   - 
   - SF_EditorPreview
   m_SortingLayers:
+  - name: TreeBackground
+    uniqueID: 170376785
+    locked: 0
+  - name: Background
+    uniqueID: 1611635347
+    locked: 0
+  - name: Background1
+    uniqueID: 2073384877
+    locked: 0
+  - name: Midground
+    uniqueID: 902871513
+    locked: 0
+  - name: Water
+    uniqueID: 2904869137
+    locked: 0
+  - name: Buildings
+    uniqueID: 395593865
+    locked: 0
+  - name: Player
+    uniqueID: 2556623079
+    locked: 0
+  - name: Enemy
+    uniqueID: 1764918147
+    locked: 0
+  - name: Frontground
+    uniqueID: 4219580763
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
-    uniqueID: 4224675301
-    locked: 0
-  - name: Midground
-    uniqueID: 4207603375
-    locked: 0
-  - name: ground
-    uniqueID: 4221563917
-    locked: 0
-  - name: Building
-    uniqueID: 3819762985
-    locked: 0
-  - name: Box
-    uniqueID: 3065941903
-    locked: 0
-  - name: Enemy
-    uniqueID: 598921669
-    locked: 0
-  - name: Player
-    uniqueID: 495762729
-    locked: 0
-  - name: Frontground
-    uniqueID: 2361160981
-    locked: 0
-  - name: Ladder
-    uniqueID: 2551850105
-    locked: 0
-  - name: UILayer
-    uniqueID: 1249540167
+  - name: CheckPoint
+    uniqueID: 2257672965
     locked: 0

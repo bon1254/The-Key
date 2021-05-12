@@ -1,17 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using DG.Tweening;
 using System.Linq;
 
 public class BlockRotationRandom : MonoBehaviour
 {
     public bool IsFinish = false;
-    public GameObject LightBoard;
-    public GameObject DialogueSlateBlock1;
-    public AudioSource audioSource;
-    public AudioClip BlockSound;
-    public Animator animator , animator2;
     [SerializeField] List<BlockRotationRandom> blocks = new List<BlockRotationRandom>();
     Animator anim;
     float currentAnimationTime,nowAnimationTiome;    
@@ -21,14 +16,13 @@ public class BlockRotationRandom : MonoBehaviour
 
     void Awake()
     {
-        //audioSource = GetComponent<AudioSource>();
         blocks = FindObjectsOfType<BlockRotationRandom>().ToList();
         anim = GetComponent<Animator>();
     }
 
     void Start()
     {
-        while (true)
+        while(true)
         {
             int randomNumber = Random.Range(0, 4);
             if (randomNumber == 0) continue;
@@ -52,9 +46,7 @@ public class BlockRotationRandom : MonoBehaviour
                 Debug.Log("過關");
                 foreach (var block in blocks)
                 {
-                    animator.Play("LightBorad");
-                    animator2.Play("altarUp");
-                    DialogueSlateBlock1.SetActive(true);
+                    block.GetComponent<SpriteRenderer>().color = Color.yellow;
                 }
             }
         }
@@ -62,26 +54,17 @@ public class BlockRotationRandom : MonoBehaviour
 
     public void ChangeCurrentAngle()
     {
-        audioSource.clip = BlockSound;
-        if (CurrentTime < 1)
+        if (CurrentTime < 1 || IsFinish)
         {
             return;
         }
 
         currentAnimationTime += 0.25f;
-        audioSource.Play(); 
         IsFinish = currentAnimationTime % 1.0f == 0.0f;
         if(IsFinish)
         {
-            Debug.Log("OK");
+            GetComponent<SpriteRenderer>().color = Color.gray;
         }
         NowTime = Time.realtimeSinceStartup;
-    }
-
-    public void TwirlBlockSound()
-    {
-        //audioSource.mute = false;
-        Debug.Log("123");
-        //audioSource.Play();
-    }
+    }   
 }

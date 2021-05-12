@@ -44,6 +44,13 @@ public class Block1 : MonoBehaviour
         if (!IsRotate)
         {
             Debug.Log("12345");
+  
+        
+            //print("給角度");
+            //tweener = block1.transform.DORotate(new Vector3(0, 0, transform.localRotation.z + 90f), 1f, RotateMode.Fast);
+            //tweener.SetAutoKill(false);
+            //tweener.SetEase(Ease.InBack);
+            //tweener.OnComplete();
             IsRotate = true;
         }             
     }

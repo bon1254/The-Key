@@ -10,14 +10,16 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character    
     [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
    
-    const float k_GroundedRadius = 0.3f; // Radius of the overlap circle to determine if grounded
-    public bool m_Grounded;
-    bool wasGrounded;            // Whether or not the player is grounded.
+    const float k_GroundedRadius = 0.63f; // Radius of the overlap circle to determine if grounded
+    public bool m_Grounded;            // Whether or not the player is grounded.
     public Rigidbody2D m_Rigidbody2D;
-    public bool m_FacingRight = true;  // For determining which way the player is currently facing.
-
-    float jumpOnTime;
-
+    private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+    
+    internal void Move(float v, bool jump, bool climb)
+    {
+        throw new NotImplementedException();
+    }
+    
     private Vector3 m_Velocity = Vector3.zero;
 
     [Header("Events")]
@@ -25,85 +27,76 @@ public class CharacterController2D : MonoBehaviour
 
     public UnityEvent OnLandEvent;
 
-    [Serializable]
+    [System.Serializable]
     public class BoolEvent : UnityEvent<bool> { }
 
-    bool was_Grounded;
+    public BoolEvent OnJumpEvent;
+
     private void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
-        
-        if (OnLandEvent == null)
-            OnLandEvent = new UnityEvent();         
-    }
 
-    public void OnJump()
-    {
-        jumpOnTime = Time.time;
+        if (OnLandEvent == null)
+            OnLandEvent = new UnityEvent();
+
+        if (OnJumpEvent == null)
+            OnJumpEvent = new BoolEvent();
     }
 
     private void FixedUpdate()
     {
-        if (Time.time - jumpOnTime < 0.15f) return;
-
+        m_Grounded = m_Rigidbody2D.velocity.y == 0;
+        bool wasGrounded = m_Grounded;
+        //m_Grounded = false;
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
         // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-        wasGrounded = m_Grounded;
-        m_Grounded = false;
-
-        // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-        // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-       
-
+        //Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+        if (!wasGrounded)
+            OnLandEvent.Invoke();
+        /*
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject != gameObject)
             {
-                 m_Grounded = true;
-                 if (!wasGrounded)
-                 {
-                     OnLandEvent.Invoke();
-                 }
-            }            
+                m_Grounded = true;
+                if (!wasGrounded)
+                   OnLandEvent.Invoke();                    
+            }
         }
+        */
     }
-    //
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(m_GroundCheck.position, k_GroundedRadius);
-    }
-    //
+
     public void Move(float move_X, float move_Y, bool jump, bool climb)
     {
         if (climb)
-        {
-            if (m_Rigidbody2D.gravityScale != 0)
-            {
-                //Debug.LogError("climb");
-                m_Rigidbody2D.gravityScale = 0;
-                m_Rigidbody2D.velocity = Vector2.zero;
-            }
+        {    
             // Move the character by finding the target velocity
             Vector3 targetVelocity = new Vector2(move_X * 10f, move_Y * 10f);
             // And then smoothing it out and applying it to the character
 
-           //if (targetVelocity.magnitude > 0)
+            if (targetVelocity.magnitude > 0)
                 m_Rigidbody2D.velocity = targetVelocity;
-           // else
-               // m_Rigidbody2D.velocity = Vector2.zero;
+            else
+                m_Rigidbody2D.velocity = Vector2.zero;
+
         }
         else
         {        
             //only control the player if grounded or airControl is turned on
             if (m_Grounded || m_AirControl) {
+                // If the player should jump...
+                if (m_Grounded && jump)
+                {
+                    // Add a vertical force to the player.
+                    m_Grounded = false;
+                    m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+                    OnJumpEvent.Invoke(true);
+                }
 
                 // Move the character by finding the target velocity
                 Vector3 targetVelocity = new Vector2(move_X * 10f, m_Rigidbody2D.velocity.y);
                 // And then smoothing it out and applying it to the character
-                m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
-                //m_Rigidbody2D.velocity = targetVelocity;
+                m_Rigidbody2D.velocity = targetVelocity;
 
                 // If the input is moving the player right and the player is facing left...
                 if (move_X > 0 && !m_FacingRight) {
@@ -116,16 +109,8 @@ public class CharacterController2D : MonoBehaviour
                     Flip();
                 }
             }
-            // If the player should jump...
-            if (m_Grounded && jump)
-            {
-                // Add a vertical force to the player.
-                m_Grounded = false;
-                m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-            }
         }
-
-
+        
     }
 
     private void Flip()

@@ -36,7 +36,6 @@ AudioMixerGroupController:
   m_Children: []
   m_Volume: 7b0df541bfc96fd418b5dcae0e68a10f
   m_Pitch: d5e5d562be663684291947b28e709358
-  m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 24400004}
   m_UserColorIndex: 0
@@ -67,5 +66,5 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 840372f2c1b84cf4b877f6afac73d124
   m_FloatValues:
-    7b0df541bfc96fd418b5dcae0e68a10f: 5
+    7b0df541bfc96fd418b5dcae0e68a10f: 0
   m_TransitionOverrides: {}
