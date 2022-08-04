@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scene/Start.unity
+    guid: 8ff83fc9f0b9ac04c8d7ee5763d9e286
+  - enabled: 1
+    path: Assets/Scene/prologue.unity
+    guid: c386a661addfb4e428bd4e28a607e5bc
+  - enabled: 1
+    path: Assets/Scene/MonkeyOne.unity
+    guid: 548efbe8196c7bb41a94d25d70cf82e6
+  - enabled: 1
+    path: Assets/Scene/MonkeyTwo.unity
+    guid: 3de3f6e44f3cce642ad75985c285d506
+  - enabled: 1
+    path: Assets/Scene/MonekyThree.unity
+    guid: 04b1888561098f1439ed94a40bfb572f
+  - enabled: 1
+    path: Assets/Scene/MonkeyFour.unity
+    guid: 4f971ed07a0121742885e353e0326ac6
+  - enabled: 1
+    path: Assets/Scene/ElfOne.unity
+    guid: f35e070f8ed60e54aa4bff2a06c9623c
+  m_configObjects: {}

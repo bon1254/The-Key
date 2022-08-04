@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground
+  - DialogueFieldVillage
+  - NextLevel
+  - Enemy
+  - DialogueFieldEnemyMonkey
+  - CheckPoint
+  - PrologueDialogueSlate
+  - PrologueDialogueFabric
+  - PrologueDialogueText
+  - PrologueDialogueStatue
+  - PrologueDialoguePottery
+  - MonkeyTwoDialogueTaking
+  - ForE
+  - Ladder
+  - MonkeyThreeDialogueFindHole
+  - Pushable
+  - FinishPushing
+  - blocks
+  - MonkeyFourDialogueBlocks
+  - MonkeyFourDialogueSlateBlock
+  - ElfOneDialogueDeathElfes
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Player
+  - Enemy
+  - Ladder
+  - Box
+  - triggerable
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - SF_EditorPreview
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 4224675301
+    locked: 0
+  - name: Midground
+    uniqueID: 4207603375
+    locked: 0
+  - name: ground
+    uniqueID: 4221563917
+    locked: 0
+  - name: Building
+    uniqueID: 3819762985
+    locked: 0
+  - name: Box
+    uniqueID: 3065941903
+    locked: 0
+  - name: Enemy
+    uniqueID: 598921669
+    locked: 0
+  - name: Player
+    uniqueID: 495762729
+    locked: 0
+  - name: Frontground
+    uniqueID: 2361160981
+    locked: 0
+  - name: Ladder
+    uniqueID: 2551850105
+    locked: 0
+  - name: UILayer
+    uniqueID: 1249540167
+    locked: 0
