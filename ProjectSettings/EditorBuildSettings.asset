@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/ElfOne.unity
     guid: f35e070f8ed60e54aa4bff2a06c9623c
+  - enabled: 1
+    path: Assets/Scene/ElfTwo.unity
+    guid: f501099932acfcb419a3022bfeec8fca
   m_configObjects: {}

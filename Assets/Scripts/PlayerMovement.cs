@@ -279,7 +279,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 Death = false;
                 PlayerControlable = false;
-                animator.SetTrigger("New Trigger");
+                animator.SetTrigger("Death");
                 DeathUI.SetActive(true);
                 animatorUI.Play("DeathStart");
             }
@@ -288,14 +288,6 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "FallDetector")
-        {
-            PlayerControlable = false;
-            animator.SetTrigger("New Trigger");
-            DeathUI.SetActive(true);
-            animatorUI.Play("DeathStart");
-        }
-
         if (other.tag == "CheckPoint")
         {
             respawnPoint = other.transform.position;

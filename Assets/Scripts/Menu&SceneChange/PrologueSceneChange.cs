@@ -61,9 +61,4 @@ public class PrologueSceneChange : MonoBehaviour
     {
         animator.Play("PrologueBlackFadeIn");
     }
-
-    private void OnDestroy()
-    {
-        Debug.LogError("I'm dead now");
-    }
 }

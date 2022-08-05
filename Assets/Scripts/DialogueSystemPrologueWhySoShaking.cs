@@ -27,7 +27,6 @@ public class DialogueSystemPrologueWhySoShaking : MonoBehaviour
 
     public void StartDialogue()
     {
-        Debug.Log("go");
         FadeIn();   //FadeIn 
         PlayerRb2d.velocity = Vector2.zero;
         Player.GetComponent<PlayerMovement>().animator.Rebind();

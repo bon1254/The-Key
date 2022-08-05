@@ -135,7 +135,6 @@ public class DialogueSystemProloguePottery : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        print("Done");
         yield return new WaitForSeconds(1.2f);
         StopCoroutine("FadeCanvasGroup");
     }

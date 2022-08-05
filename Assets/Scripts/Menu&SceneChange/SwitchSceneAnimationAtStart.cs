@@ -13,7 +13,6 @@ public class SwitchSceneAnimationAtStart : MonoBehaviour
 
     public void AtStartAnimationPlaybackFinish()
     {
-        print("123");
         Main.DestoryThis_Start();
     }
 }

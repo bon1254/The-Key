@@ -43,9 +43,7 @@ public class SceneChange : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
         }
-        Debug.LogError("LOAD STATE CHANGE");
         LoadingScene.allowSceneActivation = true;
-        Debug.LogError("DID I DIED?");
     }
 
     private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
@@ -55,17 +53,13 @@ public class SceneChange : MonoBehaviour
 
     IEnumerator WaitUntilAnimationFinish()
     {
-        Debug.LogError("WAIT");
         yield return new WaitForSecondsRealtime(2);
         animator.Play("SceneChangeAnimFinish");
-        Debug.LogError("Play");
         while (!AtStartAnimationPlayFinished)
         {
-            Debug.LogError("Waiting...");
             yield return new WaitForSecondsRealtime(1);
         }      
         yield return new WaitForSecondsRealtime(1);
-        Debug.LogError("Find player");
         SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
         //var Player = GameObject.Find("Player0-0");
         //if (Player != null) Player.GetComponent<DialogueSystemPrologue0>().StartDialogue();
@@ -79,7 +73,6 @@ public class SceneChange : MonoBehaviour
     }
     public void DestoryThis_Start()
     {
-        Debug.LogError("Fin");
         AtStartAnimationPlayFinished = true;
     }
 

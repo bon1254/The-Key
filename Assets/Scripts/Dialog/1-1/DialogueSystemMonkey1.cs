@@ -19,7 +19,7 @@ public class DialogueSystemMonkey1 : DialogueSystemBase
     public GameObject Tip;
     public GameObject NoteBookTip;
     public SwitchSceneAnimationEvery switchSceneAnimationEvery;
-    public Slates SlatesOoneAppear;
+    public Slates SlatesController;
     public NoteBookTrunPages NBtrunPages;
     public GameObject Nextlevel;
 
@@ -58,12 +58,17 @@ public class DialogueSystemMonkey1 : DialogueSystemBase
     {
         PlayerRb2d.GetComponent<Rigidbody2D>();
         playerMovement.PlayerControlable = false;    //玩家一開始不動                 
+
+        //筆記本更新
         NBtrunPages = FindObjectOfType<NoteBookTrunPages>().GetComponent<NoteBookTrunPages>();
-        SlatesOoneAppear = FindObjectOfType<Slates>().GetComponent<Slates>();
         NBtrunPages.DestroyBlank();
         NBtrunPages.Pages.Add(NBtrunPages._p[0]);
         NBtrunPages.Pages.Remove(NBtrunPages.Pages[0]);
-        SlatesOoneAppear.Slate1Appear();
+
+        //石板更新
+        SlatesController = FindObjectOfType<Slates>().GetComponent<Slates>();
+        SlatesController.Slate1Appear();
+
         audioManager = FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
         audioManager.Monkey1BGM();
         Invoke("StartDialogue", 5);
@@ -81,6 +86,7 @@ public class DialogueSystemMonkey1 : DialogueSystemBase
         IsTyping = true;
         IsTalking = true;
         yield return new WaitForSeconds(.5f);
+
         foreach (char letter in sentences[index].ToCharArray())
         {
             textDisplay.text += letter;
