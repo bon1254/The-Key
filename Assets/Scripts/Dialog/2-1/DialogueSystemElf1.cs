@@ -57,7 +57,7 @@ public class DialogueSystemElf1 : DialogueSystemBase
     {
         IsTyping = true;
         IsTalking = true;
-        Debug.LogError("打字機");
+
         yield return new WaitForSeconds(.5f);
         foreach (char letter in sentences[index].ToCharArray())
         {

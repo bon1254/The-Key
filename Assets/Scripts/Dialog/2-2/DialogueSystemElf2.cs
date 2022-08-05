@@ -76,7 +76,6 @@ public class DialogueSystemElf2 : MonoBehaviour
                 IsTyping = false;
                 IsFinishTalking = true;
                 StopCoroutine(c);
-                Debug.Log("123");
             }
             else if (IsFinishTalking) //講完話
             {

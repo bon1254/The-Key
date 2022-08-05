@@ -19,6 +19,7 @@ public class DialogueSystemElfes : MonoBehaviour
 
     [Header("DialogueSystem")]
     public GameObject DialogueInjuredElf;
+    public BoxCollider2D DialogueSystemElfesBoxCollider;
     public GameObject DialogueManager;
     public GameObject EnergyTaking;
 
@@ -88,7 +89,7 @@ public class DialogueSystemElfes : MonoBehaviour
                     else if (index == 20)    //幫助妖精
                     {
                         playermovement.PlayerControlable = true;    //玩家可以動了                        
-                        DialogueInjuredElf.SetActive(false);
+                        DialogueSystemElfesBoxCollider.enabled = false;
                         FadeOut();
                     }
                     else
