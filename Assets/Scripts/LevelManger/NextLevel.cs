@@ -11,12 +11,6 @@ public class NextLevel : MonoBehaviour
     public Animator animator;
     public PlayerMovement playerMovement;
     public DestroyGoMenu destroyGoMenu;
-    //public Monkey monkey;
-
-    [SerializeField]
-    GameObject[] Switches;
-    public ForDoorOpen forE;
-    int noOfSwitches = 0;
 
     private static NextLevel instance = null;
     public static NextLevel Instance
@@ -66,7 +60,7 @@ public class NextLevel : MonoBehaviour
     IEnumerator WaitUntilAnimationFinish()
     {
         yield return new WaitForSecondsRealtime(2);
-        animator.Play("SceneChangeFinish");//感覺是這個沒做?
+        animator.Play("SceneChangeFinish");
         while (!AnimationPlayFinished)
         {
             yield return new WaitForSecondsRealtime(1);

@@ -8409,7 +8409,6 @@ GameObject:
   - component: {fileID: 2017511961}
   - component: {fileID: 2017511960}
   - component: {fileID: 2017511963}
-  - component: {fileID: 2017511964}
   m_Layer: 0
   m_Name: EnergyTaking
   m_TagString: ElfTowEnergyTaking
@@ -8570,14 +8569,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!81 &2017511964
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017511959}
-  m_Enabled: 1
 --- !u!1 &2027908998
 GameObject:
   m_ObjectHideFlags: 0
