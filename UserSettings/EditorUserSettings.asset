@@ -5,6 +5,9 @@ EditorUserSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 4
   m_ConfigSettings:
+    RecentlyUsedScenePath-0:
+      value: 22424703114646680e0b02275f0e501e1d120105222d68252320092a
+      flags: 0
     UnityEditor.ShaderGraph.FloatingWindowsLayout2:
       value: 181344140043005e1a220d3b1f364b524c0c5a27130c293326201334cee5322ca0bd30e8eb293a707b0fd0180b3d0a36fc0d3d04e649500d1002ee0b5dbd1d2c27c00ad113cb1e10e41f1addc80993b9859884a69ae6d8f0d1cda9e8fbfefaf9f9dea3fdb9ade882f0f9b0e5ff929796959ee6909c909b92f690dcec8ddac8d69b8c9e94c1c5828a8fdaeedcfbc9fef1c2f0f3c7cdf2cce7df87dee832e3fc2e343738eaedeae4d0eae93ed2202699953e3584757689848e86936d88b88f8880578edbc15dd997a445914e956841674f64537c17304c7d795e252e5362492e702e2f2a7d1c74676a743b2257410c3c457a7730592e314f51361048072c5743160b0a490410145468222d332a142c2c37282a3a202f042d3f6b47615362ac7539dc023dfce077b320aff6ae58a3536fbea6bbba134e5252485947aa4a9b994c4f959e44909142484b04ff835ee91ff20bd7f8d9f9d3fde3eee6ddd4f4f49daae8b3bdbaffabfeaab2fda9acfefdabe093e6e3e59fee988bfaa7fdda838286808b8c88dc82d9d085f6ded78ac2d7bfba
       flags: 0
@@ -24,5 +27,7 @@ EditorUserSettings:
   m_SemanticMergeMode: 2
   m_VCShowFailedCheckout: 1
   m_VCOverwriteFailedCheckoutAssets: 1
-  m_VCOverlayIcons: 1
+  m_VCProjectOverlayIcons: 1
+  m_VCHierarchyOverlayIcons: 1
+  m_VCOtherOverlayIcons: 1
   m_VCAllowAsyncUpdate: 0

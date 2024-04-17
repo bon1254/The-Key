@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class PasueMenu : MonoBehaviour
 {
-    public Animator animator1;
+    public Animator Animator_PauseMenu;
     public static bool GameIsPaused = false;
     public AsyncOperation LoadingScene;
-    public GameObject PausedMenuCanvas;
-    public GameObject OptionsCanvas;
+    public GameObject Canvas_PausedMenu;
+    public GameObject Canvas_Options;
 
     public GameObject NoteBook;
     public GameObject Slate;
@@ -27,10 +27,10 @@ public class PasueMenu : MonoBehaviour
     {
         get { return instance; }
     }
+
     // Start is called before the first frame update
     void Awake()
     {    
-        
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -77,7 +77,7 @@ public class PasueMenu : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
         }
-        animator1.Play("PasuedAnimToMainFinish");
+        Animator_PauseMenu.Play("PasuedAnimToMainFinish");
         LoadingScene.allowSceneActivation = true;
         yield return new WaitForSecondsRealtime(1.0f);
 
@@ -86,7 +86,7 @@ public class PasueMenu : MonoBehaviour
 
     public void RestartGame()
     {
-        PausedMenuCanvas.SetActive(false);
+        Canvas_PausedMenu.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Debug.Log(SceneManager.GetActiveScene().name);// loads current scene        
         Time.timeScale = 1f;       
@@ -95,8 +95,8 @@ public class PasueMenu : MonoBehaviour
     public void LoadSceneToStart()
     {
         destroyGoMenu.DestoryAll();
-        //
-        animator1.Play("PasuedAnimToMainStart");
+        
+        Animator_PauseMenu.Play("PasuedAnimToMainStart");
         StartCoroutine(LoadToStart());                 
         Invoke("DoFadeOut", 1f);
     }  
@@ -147,26 +147,26 @@ public class PasueMenu : MonoBehaviour
 
     public void Resume()
     {
-        PausedMenuCanvas.SetActive(false);
+        Canvas_PausedMenu.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
 
     public void OptionsCanvasPaused()
     {
-        OptionsCanvas.SetActive(true);
-        PausedMenuCanvas.SetActive(false);
+        Canvas_Options.SetActive(true);
+        Canvas_PausedMenu.SetActive(false);
     }
 
     public void OptionsCanvasPausedBack()
     {
-        OptionsCanvas.SetActive(false);
-        PausedMenuCanvas.SetActive(true);
+        Canvas_Options.SetActive(false);
+        Canvas_PausedMenu.SetActive(true);
     }
 
     public void Paused()
     {
-        PausedMenuCanvas.SetActive(true);
+        Canvas_PausedMenu.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
     }

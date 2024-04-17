@@ -85,7 +85,7 @@ public class DialogueSystemMonkey1 : DialogueSystemBase
     {
         IsTyping = true;
         IsTalking = true;
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
 
         foreach (char letter in sentences[index].ToCharArray())
         {
@@ -99,6 +99,10 @@ public class DialogueSystemMonkey1 : DialogueSystemBase
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(index);
+        Debug.Log(IsTalking);
+        Debug.Log(IsTyping);
+
         if (Input.GetMouseButtonDown(0) && IsTalking)  //按下左鍵+對話開啟
         {
             StopCoroutine(c);
